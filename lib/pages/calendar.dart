@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:table_calendar/table_calendar.dart';
-
 
 class Calendar extends StatefulWidget {
   @override
@@ -9,6 +7,7 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  CalendarFormat format = CalendarFormat.month; // カレンダー右上ボタンでフォーマットを切り替え設定
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +22,19 @@ class _CalendarState extends State<Calendar> {
           )
         ],
       ),
-      body: Center(
-        child: Text('Firebase & Calendar'),
+      body: TableCalendar(
+        focusedDay: DateTime.now(), // 現在の日付に設定
+        firstDay: DateTime(1990), // カレンダーの最初の年を設定
+        lastDay: DateTime(2050), // カレンダーの最後の年を設定
+        // カレンダー右上ボタンでフォーマットを変更できるように設定
+        calendarFormat: format,
+        onFormatChanged: (CalendarFormat _format) {
+          setState(() {
+            format = _format;
+          });
+        },
+        startingDayOfWeek: StartingDayOfWeek.sunday, // 週の初めを日曜日に設定
+        daysOfWeekVisible: true,
       ),
 //      body: SingleChildScrollView(
 //        child: Column(
