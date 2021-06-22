@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/pages/calendar.dart';
 import 'package:flutter_firebase/pages/home.dart';
+import 'package:intl/date_symbol_data_file.dart';
 
 void main() {
   runApp(MyApp());
+
+  // カレンダーの言語を日本語で設定
+  //initializeDateFormatting().then((_) =>runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

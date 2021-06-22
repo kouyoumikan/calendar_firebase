@@ -26,6 +26,7 @@ class _CalendarState extends State<Calendar> {
         ],
       ),
       body: TableCalendar(
+        //locale: 'ja_JP', // カレンダーの言語を日本語で設定
         focusedDay: selectedDay, // 二番目に選択される日付を現在の日付に設定
         firstDay: DateTime(1990), // カレンダーの最初の年を設定
         lastDay: DateTime(2050), // カレンダーの最後の年を設定
