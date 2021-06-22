@@ -38,7 +38,8 @@ class _CalendarState extends State<Calendar> {
         },
         startingDayOfWeek: StartingDayOfWeek.sunday, // 週の初めを日曜日に設定
         daysOfWeekVisible: true,
-        // 二番目にフォーカスして選択される日付の設定
+
+        // 1番目にフォーカスして選択される日付の設定
         onDaySelected: (DateTime selectDay, DateTime focuseDay) {
           setState(() {
             selectedDay = selectDay;
@@ -46,7 +47,8 @@ class _CalendarState extends State<Calendar> {
           });
           print(focusedDay);
         },
-        // 二番目に選択される日付をフォーカスした日付に更新
+
+        // 2番目に選択される日付をフォーカスした日付に更新
         selectedDayPredicate: (DateTime date) {
           return isSameDay(selectedDay, date);
         },
@@ -67,95 +69,36 @@ class _CalendarState extends State<Calendar> {
             //borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
           ),
         ),
-      ),
-//      body: SingleChildScrollView(
-//        child: Column(
-//          crossAxisAlignment: CrossAxisAlignment.start,
-//          children: <Widget>[
-//            TableCalendar(
-//              locale: 'ja_JP', // カレンダーの言語を日本語で設定
-//              weekendDays: [7], //
-//              focusedDay: selectedDay,
-//              firstDay: DateTime(1990),
-//              lastDay: DateTime(2050),
-//              calendarFormat: format,
-//              // フォーマット変更のボタン押下時の処理
-//              onFormatChanged: (CalendarFormat _format) {
-//                setState(() {
-//                  format = _format;
-//                });
-//              },
-//              startingDayOfWeek: StartingDayOfWeek.sunday,
-//              daysOfWeekVisible: true,
-//
-//              //Day Changed
-//              onDaySelected: (DateTime selectDay, DateTime focusDay) {
-//                setState(() {
-//                  selectedDay = selectDay;
-//                  focusedDay = focusDay;
-//                });
-//                print(focusedDay);
-//              },
-//              selectedDayPredicate: (DateTime date) {
-//                return isSameDay(selectedDay, date);
-//              },
-//
-//              //eventLoader: _getEventsfromDay,
-//
-//              //To style the Calendar
-//              calendarStyle: CalendarStyle(
-//                isTodayHighlighted: true,
-//                selectedDecoration: BoxDecoration(
-//                  color: Colors.blue,
-//                  shape: BoxShape.rectangle,
-//                  borderRadius: BorderRadius.circular(5.0),
-//                ),
-//                selectedTextStyle: TextStyle(color: Colors.white),
-//                todayDecoration: BoxDecoration(
-//                  color: Colors.purpleAccent,
-//                  shape: BoxShape.rectangle,
-//                  borderRadius: BorderRadius.circular(5.0),
-//                ),
-//                defaultDecoration: BoxDecoration(
-//                  shape: BoxShape.rectangle,
-//                  borderRadius: BorderRadius.circular(5.0),
-//                ),
-//                weekendDecoration: BoxDecoration(
-//                  shape: BoxShape.rectangle,
-//                  borderRadius: BorderRadius.circular(5.0),
-//                ),
-//              ),
-//              //右上にあるカレンダー表示の切り替えボタンのカスタマイズ
-//              headerStyle: HeaderStyle(
-//                formatButtonVisible: true,
-//                titleCentered: true,
-//                formatButtonShowsNext: false,
-//                formatButtonDecoration: BoxDecoration(
-//                  color: Colors.blue,
-//                  borderRadius: BorderRadius.circular(5.0),
-//                ),
-//                formatButtonTextStyle: TextStyle(
-//                  color: Colors.white,
-//                ),
-////                leftChevronVisible: false, // 左上の矢印を非表示
-////                rightChevronVisible: false, // 右上の矢印を非表示
-//                headerPadding: EdgeInsets.symmetric(
-//                    horizontal: 5.0,
-//                    vertical: 1.0
-//                ),
-//              ),
-//              // カレンダーのイベント数を数字で表示するようにカスタマイズ
-//              calendarBuilders: CalendarBuilders(
-//                markerBuilder: (context, date, events) {
-//                  if (events.isNotEmpty) {
-//                    return _buildEventsMarker(date, events);
-//                  }
-//                },
-//              ),
-//            ),
-//          ],
+
+        // 右上にあるカレンダー表示の切り替えボタンのカスタマイズ
+        headerStyle: HeaderStyle(
+          formatButtonVisible: true, // 右上にあるカレンダー表示の切り替えボタンを表示するかの設定
+          titleCentered: true, // カレンダーの月を中央配置する設定
+          formatButtonShowsNext: false, // 右上にあるカレンダー表示の切り替え設定
+          formatButtonDecoration: BoxDecoration( // 右上にあるカレンダー表示の切り替えボタンのデザイン装飾
+            color: Colors.blue, // 青色
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          formatButtonTextStyle: TextStyle( // 右上にあるカレンダー表示の切り替えボタンの文字色の装飾
+            color: Colors.white,
+          ),
+//          leftChevronVisible: false, // 左上の矢印を非表示
+//          rightChevronVisible: false, // 右上の矢印を非表示
+//          headerPadding: EdgeInsets.symmetric( // 右上にあるの切り替えボタンの配置の設定
+//              horizontal: 5.0,
+//              vertical: 1.0
+//          ),
+        ),
+
+        // カレンダーのイベント数を数字で表示するようにカスタマイズ
+//        calendarBuilders: CalendarBuilders(
+//          markerBuilder: (context, date, events) {
+//            if (events.isNotEmpty) {
+//              return _buildEventsMarker(date, events);
+//            }
+//          },
 //        ),
-//      ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: 2, // 現在選択しているアイコンの色をハイライト表示
