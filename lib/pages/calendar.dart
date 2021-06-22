@@ -9,6 +9,9 @@ class Calendar extends StatefulWidget {
 class _CalendarState extends State<Calendar> {
   CalendarFormat format = CalendarFormat.month; // カレンダー右上ボタンでフォーマットを切り替え設定
 
+  DateTime selectedDay = DateTime.now(); // 選択される日付の初期値を現在の日付に設定
+  DateTime focusedDay = DateTime.now(); // 二番目に選択される日付の初期値を現在の日付に設定
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +26,7 @@ class _CalendarState extends State<Calendar> {
         ],
       ),
       body: TableCalendar(
-        focusedDay: DateTime.now(), // 現在の日付に設定
+        focusedDay: selectedDay, // 二番目に選択される日付を現在の日付に設定
         firstDay: DateTime(1990), // カレンダーの最初の年を設定
         lastDay: DateTime(2050), // カレンダーの最後の年を設定
         // カレンダー右上ボタンでフォーマットを変更できるように設定
@@ -35,6 +38,35 @@ class _CalendarState extends State<Calendar> {
         },
         startingDayOfWeek: StartingDayOfWeek.sunday, // 週の初めを日曜日に設定
         daysOfWeekVisible: true,
+        // 二番目にフォーカスして選択される日付の設定
+        onDaySelected: (DateTime selectDay, DateTime focuseDay) {
+          setState(() {
+            selectedDay = selectDay;
+            focusedDay = focuseDay;
+          });
+          print(focusedDay);
+        },
+        // 二番目に選択される日付をフォーカスした日付に更新
+        selectedDayPredicate: (DateTime date) {
+          return isSameDay(selectedDay, date);
+        },
+        calendarStyle: CalendarStyle(
+          isTodayHighlighted: true, // 今日の日付を強調
+          selectedDecoration: BoxDecoration( // 選択した日付のデザイン装飾
+            color: Colors.blue, // 青色
+            //shape: BoxShape.circle, // 円形
+            shape: BoxShape.rectangle, // 四角形
+            //borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
+          ),
+          selectedTextStyle: TextStyle(color: Colors.white), // 選択した日付の文字色の設定
+          // 現在日時のデザイン装飾
+          todayDecoration: BoxDecoration(
+            color: Colors.purpleAccent, // 明るい紫色
+            //shape: BoxShape.circle, // 円形
+            shape: BoxShape.rectangle, // 四角形
+            //borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
+          ),
+        ),
       ),
 //      body: SingleChildScrollView(
 //        child: Column(
