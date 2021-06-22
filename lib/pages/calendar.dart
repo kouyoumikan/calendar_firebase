@@ -49,88 +49,90 @@ class _CalendarState extends State<Calendar> {
           )
         ],
       ),
-      body: TableCalendar(
-        //locale: 'ja_JP', // カレンダーの言語を日本語で設定
-        focusedDay: selectedDay, // 二番目に選択される日付を現在の日付に設定
-        firstDay: DateTime(1990), // カレンダーの最初の年を設定
-        lastDay: DateTime(2050), // カレンダーの最後の年を設定
-        // カレンダー右上ボタンでフォーマットを変更できるように設定
-        calendarFormat: format,
-        onFormatChanged: (CalendarFormat _format) {
-          setState(() {
-            format = _format;
-          });
-        },
-        startingDayOfWeek: StartingDayOfWeek.sunday, // 週の初めを日曜日に設定
-        daysOfWeekVisible: true,
+      body: Column(
+        children: [
+          TableCalendar(
+            //locale: 'ja_JP', // カレンダーの言語を日本語で設定
+            focusedDay: selectedDay, // 二番目に選択される日付を現在の日付に設定
+            firstDay: DateTime(1990), // カレンダーの最初の年を設定
+            lastDay: DateTime(2050), // カレンダーの最後の年を設定
+            // カレンダー右上ボタンでフォーマットを変更できるように設定
+            calendarFormat: format,
+            onFormatChanged: (CalendarFormat _format) {
+              setState(() {
+                format = _format;
+              });
+            },
+            startingDayOfWeek: StartingDayOfWeek.sunday, // 週の初めを日曜日に設定
+            daysOfWeekVisible: true,
 
-        // 1番目にフォーカスして選択される日付の設定
-        onDaySelected: (DateTime selectDay, DateTime focuseDay) {
-          setState(() {
-            selectedDay = selectDay;
-            focusedDay = focuseDay;
-          });
-          print(focusedDay);
-        },
+            // 1番目にフォーカスして選択される日付の設定
+            onDaySelected: (DateTime selectDay, DateTime focuseDay) {
+              setState(() {
+                selectedDay = selectDay;
+                focusedDay = focuseDay;
+              });
+              print(focusedDay);
+            },
 
-        // 2番目に選択される日付をフォーカスした日付に更新
-        selectedDayPredicate: (DateTime date) {
-          return isSameDay(selectedDay, date);
-        },
+            // 2番目に選択される日付をフォーカスした日付に更新
+            selectedDayPredicate: (DateTime date) {
+              return isSameDay(selectedDay, date);
+            },
 
-        eventLoader: _getEventsfromDay, // メールのようにevent.dartの要素を送受信する設定
+            eventLoader: _getEventsfromDay, // メールのようにevent.dartの要素を送受信する設定
 
-        calendarStyle: CalendarStyle(
-          isTodayHighlighted: true, // 今日の日付を強調
-          selectedDecoration: BoxDecoration( // 選択した日付のデザイン装飾
-            color: Colors.blue, // 青色
-            //shape: BoxShape.circle, // 円形
-            shape: BoxShape.rectangle, // 四角形
-            borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
-          ),
-          selectedTextStyle: TextStyle(color: Colors.white), // 選択した日付の文字色の設定
-          // 現在日時のデザイン装飾
-          todayDecoration: BoxDecoration(
-            color: Colors.purpleAccent, // 明るい紫色
-            //shape: BoxShape.circle, // 円形
-            shape: BoxShape.rectangle, // 四角形
-            borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
-          ),
+            calendarStyle: CalendarStyle(
+              isTodayHighlighted: true, // 今日の日付を強調
+              selectedDecoration: BoxDecoration( // 選択した日付のデザイン装飾
+                color: Colors.blue, // 青色
+                //shape: BoxShape.circle, // 円形
+                shape: BoxShape.rectangle, // 四角形
+                borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
+              ),
+              selectedTextStyle: TextStyle(color: Colors.white), // 選択した日付の文字色の設定
+              // 現在日時のデザイン装飾
+              todayDecoration: BoxDecoration(
+                color: Colors.purpleAccent, // 明るい紫色
+                //shape: BoxShape.circle, // 円形
+                shape: BoxShape.rectangle, // 四角形
+                borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
+              ),
 
-          // デフォルトのデザイン装飾（borderRadiusでエラーが発生しないようにデフォルト設定する必要がある）
-          defaultDecoration: BoxDecoration( // 平日の日付のデザイン装飾
-            //color: Colors.blue, // 青色
-            shape: BoxShape.rectangle, // 四角形
-            borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
-          ),
-          weekendDecoration: BoxDecoration( // 土日の日付のデザイン装飾
-            //color: Colors.purpleAccent, // 明るい紫色
-            shape: BoxShape.rectangle, // 四角形
-            borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
-          ),
-        ),
+              // デフォルトのデザイン装飾（borderRadiusでエラーが発生しないようにデフォルト設定する必要がある）
+              defaultDecoration: BoxDecoration( // 平日の日付のデザイン装飾
+                //color: Colors.blue, // 青色
+                shape: BoxShape.rectangle, // 四角形
+                borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
+              ),
+              weekendDecoration: BoxDecoration( // 土日の日付のデザイン装飾
+                //color: Colors.purpleAccent, // 明るい紫色
+                shape: BoxShape.rectangle, // 四角形
+                borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
+              ),
+            ),
 
-        // 右上にあるカレンダー表示の切り替えボタンのカスタマイズ
-        headerStyle: HeaderStyle(
-          formatButtonVisible: true, // 右上にあるカレンダー表示の切り替えボタンを表示するかの設定
-          titleCentered: true, // カレンダーの月を中央配置する設定
-          formatButtonShowsNext: false, // 右上にあるカレンダー表示の切り替え設定
-          formatButtonDecoration: BoxDecoration( // 右上にあるカレンダー表示の切り替えボタンのデザイン装飾
-            color: Colors.blue, // 青色
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          formatButtonTextStyle: TextStyle( // 右上にあるカレンダー表示の切り替えボタンの文字色の装飾
-            color: Colors.white,
-          ),
+            // 右上にあるカレンダー表示の切り替えボタンのカスタマイズ
+            headerStyle: HeaderStyle(
+              formatButtonVisible: true, // 右上にあるカレンダー表示の切り替えボタンを表示するかの設定
+              titleCentered: true, // カレンダーの月を中央配置する設定
+              formatButtonShowsNext: false, // 右上にあるカレンダー表示の切り替え設定
+              formatButtonDecoration: BoxDecoration( // 右上にあるカレンダー表示の切り替えボタンのデザイン装飾
+                color: Colors.blue, // 青色
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              formatButtonTextStyle: TextStyle( // 右上にあるカレンダー表示の切り替えボタンの文字色の装飾
+                color: Colors.white,
+              ),
 //          leftChevronVisible: false, // 左上の矢印を非表示
 //          rightChevronVisible: false, // 右上の矢印を非表示
 //          headerPadding: EdgeInsets.symmetric( // 右上にあるの切り替えボタンの配置の設定
 //              horizontal: 5.0,
 //              vertical: 1.0
 //          ),
-        ),
+            ),
 
-        // カレンダーのイベント数を数字で表示するようにカスタマイズ
+            // カレンダーのイベント数を数字で表示するようにカスタマイズ
 //        calendarBuilders: CalendarBuilders(
 //          markerBuilder: (context, date, events) {
 //            if (events.isNotEmpty) {
@@ -138,6 +140,15 @@ class _CalendarState extends State<Calendar> {
 //            }
 //          },
 //        ),
+          ),
+
+          // AlertDialog内の内容をリストタイルに表示する
+          ..._getEventsfromDay(selectedDay).map((Event event) => ListTile(
+            title: Text(
+                event.title
+            ),
+          )),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -196,8 +207,8 @@ class _CalendarState extends State<Calendar> {
                 TextButton(
                   onPressed: () {
                     if(_eventController.text.isEmpty) { // 空の場合
-                      Navigator.pop(context);
-                      return;
+                      //Navigator.pop(context);
+                      //return;
                     }else {
                       // 選択した日付にタイトルが追加されていない場合
                       if (selectedEvents[selectedDay] != null) {
@@ -213,7 +224,7 @@ class _CalendarState extends State<Calendar> {
                     }
                     Navigator.pop(context);
                     _eventController.clear(); // テキストフィールド内をクリアする
-                    setState((){});
+                    setState((){}); // 設定状態の前に戻る
                     return;
                   },
                   child: const Text('OK'),
@@ -226,7 +237,6 @@ class _CalendarState extends State<Calendar> {
       ),
     );
   }
-
 }
 
 
