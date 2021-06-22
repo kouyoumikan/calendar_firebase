@@ -1,4 +1,7 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/pages/event.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Calendar extends StatefulWidget {
@@ -7,10 +10,31 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  late Map<DateTime, List<Event>> selectedEvents; // event.dartのimportを設定
+
   CalendarFormat format = CalendarFormat.month; // カレンダー右上ボタンでフォーマットを切り替え設定
 
   DateTime selectedDay = DateTime.now(); // 選択される日付の初期値を現在の日付に設定
   DateTime focusedDay = DateTime.now(); // 二番目に選択される日付の初期値を現在の日付に設定
+
+  // タイトル用のテキストフィールドで使用するテキスト編集コントローラー
+  TextEditingController _eventController = TextEditingController();
+
+  @override
+  void initState() { // メールのようにevent.dartの要素を送受信する設定
+    selectedEvents = {};
+    super.initState();
+  }
+
+  List<Event> _getEventsfromDay(DateTime date) { // データが空かどうか判定
+    return selectedEvents[date] ?? [];
+  }
+
+  @override
+  void dispose() { // タイトル用のテキストフィールドで使用する
+    _eventController.dispose(); // ページの強制終了時にテキスト編集コントローラー内容を破棄する
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +77,9 @@ class _CalendarState extends State<Calendar> {
         selectedDayPredicate: (DateTime date) {
           return isSameDay(selectedDay, date);
         },
+
+        eventLoader: _getEventsfromDay, // メールのようにevent.dartの要素を送受信する設定
+
         calendarStyle: CalendarStyle(
           isTodayHighlighted: true, // 今日の日付を強調
           selectedDecoration: BoxDecoration( // 選択した日付のデザイン装飾
@@ -150,18 +177,58 @@ class _CalendarState extends State<Calendar> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.pushNamed(context, '/add_event');
-          //Navigator.pushNamed(context, AppRoutes.addEvent, arguments: selectedDay);
-        },
+      floatingActionButton: FloatingActionButton.extended( // 文字付きのボタンをextendedで設定
+        label: Text('Add Event'),
+        icon: Icon(Icons.add),
+        //onPressed: _showAddDialog, // Dialogの表示
+        onPressed: () => showDialog( // ボタン押下後、アラートDialogを表示
+            context: context,
+            builder:(context) => AlertDialog(
+              title: Text('Add Event'),
+              content: TextField( // タイトル用のテキストフィールド作成
+                controller: _eventController,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    if(_eventController.text.isEmpty) { // 空の場合
+                      Navigator.pop(context);
+                      return;
+                    }else {
+                      // 選択した日付にタイトルが追加されていない場合
+                      if (selectedEvents[selectedDay] != null) {
+                        selectedEvents[selectedDay]!.add(
+                          Event(title: _eventController.text), // タイトルを追加する
+                        );
+                      } else {
+                        // 選択した日付にタイトルが既に追加されている場合
+                        selectedEvents[selectedDay] = [
+                          Event(title: _eventController.text), // タイトルを表示する
+                        ];
+                      }
+                    }
+                    Navigator.pop(context);
+                    _eventController.clear(); // テキストフィールド内をクリアする
+                    setState((){});
+                    return;
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+        ),
         //onPressed: () => Navigator.pushNamed(context, '/add_event'),
         //onPressed: () => Navigator.of(context).pushNamed("/add_event"),
       ),
     );
   }
+
 }
+
 
 //// カレンダーのイベント数を赤丸の数字で表示
 //Widget _buildEventsMarker(DateTime date, List events) {
