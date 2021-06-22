@@ -58,7 +58,7 @@ class _CalendarState extends State<Calendar> {
             color: Colors.blue, // 青色
             //shape: BoxShape.circle, // 円形
             shape: BoxShape.rectangle, // 四角形
-            //borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
+            borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
           ),
           selectedTextStyle: TextStyle(color: Colors.white), // 選択した日付の文字色の設定
           // 現在日時のデザイン装飾
@@ -66,7 +66,19 @@ class _CalendarState extends State<Calendar> {
             color: Colors.purpleAccent, // 明るい紫色
             //shape: BoxShape.circle, // 円形
             shape: BoxShape.rectangle, // 四角形
-            //borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
+            borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
+          ),
+
+          // デフォルトのデザイン装飾（borderRadiusでエラーが発生しないようにデフォルト設定する必要がある）
+          defaultDecoration: BoxDecoration( // 平日の日付のデザイン装飾
+            //color: Colors.blue, // 青色
+            shape: BoxShape.rectangle, // 四角形
+            borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
+          ),
+          weekendDecoration: BoxDecoration( // 土日の日付のデザイン装飾
+            //color: Colors.purpleAccent, // 明るい紫色
+            shape: BoxShape.rectangle, // 四角形
+            borderRadius: BorderRadius.circular(5.0), // 図形の半径を設定
           ),
         ),
 
