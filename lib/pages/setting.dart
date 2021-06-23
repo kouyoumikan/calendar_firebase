@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/model/themes.dart';
 
 class Setting extends StatefulWidget {
-  Setting({required Key key, required this.title}) : super(key: key);
+  Setting({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -41,7 +41,7 @@ class _SettingState extends State<Setting> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Fluter Themes Demo',
+              'Fluter Themes Sample',
             ),
           ],
         ),
@@ -73,8 +73,8 @@ class _ThemeColorsState extends State<ThemeColors> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ThemeColors(
-          title: 'ThemeColors Sample'
+      home: Setting(
+          title: 'ThemeColors Sample',
       ),
       title: 'ThemeColors Sample',
       theme: CustomTheme.lightTheme, // デフォルトのテーマはライトテーマ

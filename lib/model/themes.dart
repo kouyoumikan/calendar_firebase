@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 CustomTheme currentTheme = CustomTheme(); // 現在のテーマモードの設定
 
 class CustomTheme with ChangeNotifier { // テーマカラーの切り替え
-  static bool _isDarkTheme = false; // 初期値はライトテーマにフラグ設定
-  //static bool _isDarkTheme = true; // 初期値はダークテーマにフラグ設定
+  //static bool _isDarkTheme = false; // 初期値はライトテーマにフラグ設定
+  static bool _isDarkTheme = true; // 初期値はダークテーマにフラグ設定
 
   // ThemeModeがライト/ダークか判定し、falseの時にダークテーマに設定
   ThemeMode get currentTheme =>

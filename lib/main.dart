@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      //theme: ThemeData(primarySwatch: Colors.blue),
+
       // デフォルトのルーティング
       //home: HomePage(), // initialRouteと同じ
       initialRoute: '/home', // アプリを開いた時にロードする最初のルート
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
         '/calendar': (context) => Calendar(), // カレンダー画面
 //        '/add_event': (context) => AddEvent(), // カレンダー入力画面
 //        '/view_event': (context) => ViewEvent(), // カレンダー入力画面
-        '/setting': (context) => ThemeColors(title: 'Theme Sample'), // 設定画面
+//        '/setting': (context) => Setting(title: 'Fluter Themes Sample',), // 設定画面
+        '/setting': (context) => ThemeColors(title: 'Fluter Themes Sample',), // 設定画面
       },
     );
   }
