@@ -1,29 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/model/widget.dart';
 
 /*
-*    サインイン画面　（アカウントを持っていない場合のログイン画面）
+*    サインアップ画面　（アカウントを持っている場合のログイン画面）
 * */
 
-class SignIn extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  _SignInState createState() => _SignInState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
-
+class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      //appBar: appBarMain(context), // widget.dartをimportする
-      appBar: AppBar(
-        title: Text("サインイン Pages"),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.lightBlue, // アプリバーの背景色
-      ),
+      //appBar: appBarMain(context),
       body: SingleChildScrollView(
         child: Container(
           // 要素を縦の高さ- 100の位置に配置する
@@ -36,26 +27,11 @@ class _SignInState extends State<SignIn> {
               children: [
                 TextField(
                   style: simpleTextStyle(), // widget.dartからデザイン呼び出し
-//              style: TextStyle(
-//                color: Colors.white
-//              ),
+                  decoration: textFieldInputDecoration("user name"), // widget.dartからデザイン呼び出し
+                ),
+                TextField(
+                  style: simpleTextStyle(), // widget.dartからデザイン呼び出し
                   decoration: textFieldInputDecoration("email"), // widget.dartからデザイン呼び出し
-//              decoration: InputDecoration(
-//                hintText: 'email',
-//                hintStyle: TextStyle(
-//                  color: Colors.white54,
-//                ),
-//                focusedBorder: UnderlineInputBorder(
-//                  borderSide: BorderSide(
-//                    color: Colors.white
-//                  ),
-//                ),
-//                enabledBorder: UnderlineInputBorder(
-//                  borderSide: BorderSide(
-//                      color: Colors.white
-//                  ),
-//                ),
-//              ),
                 ),
                 TextField(
                   style: simpleTextStyle(),
@@ -87,14 +63,10 @@ class _SignInState extends State<SignIn> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Text(
-                      "Sign In",
-                      style: biggerTextStyle(),
-//                      style: TextStyle(
-//                        color: Colors.white,
-//                        fontSize: 17
-//                      ),
-                    ),
+                    "Sign Up",
+                    style: biggerTextStyle(),
                   ),
+                ),
                 SizedBox(height: 8,),
                 Container(
                   alignment: Alignment.center,
@@ -105,7 +77,7 @@ class _SignInState extends State<SignIn> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Text(
-                    "Sign In with Google",
+                    "Sign Up with Google",
                     style: mediaTextStyle(),
                   ),
                 ),
@@ -114,11 +86,11 @@ class _SignInState extends State<SignIn> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have account ? ",
+                      "Already have account ? ",
                       style: biggerTextStyle(),
                     ),
-                    Text( // アカウントを持っている場合
-                      "Resister now",
+                    Text( // アカウントを持っていない場合
+                      "SignIn now",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -132,7 +104,7 @@ class _SignInState extends State<SignIn> {
             ),
           ),
         ),
-      ),
+      ),,
     );
   }
 }
