@@ -178,7 +178,7 @@ class _CalendarState extends State<Calendar> {
           if (index == 0) {
             // First Icon が押されたときは前の画面に戻る
             // Navigator.of(context).pop();
-            //Navigator.of(context).pushNamed("/home");
+            Navigator.of(context).pushNamed("/home");
           } else if (index == 1) {
             Navigator.of(context).pushNamed("/view_event");
           } else if (index == 2) {

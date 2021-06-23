@@ -15,7 +15,7 @@ class CustomTheme with ChangeNotifier { // テーマカラーの切り替え
       _isDarkTheme ? ThemeMode.dark : ThemeMode.light;
 
   void toggleTheme() { // ThemeModeの値の変更
-    _isDarkTheme != _isDarkTheme; // ダークテーマが等しいか判定
+    _isDarkTheme = !_isDarkTheme; // ダークテーマが等しいか判定
     notifyListeners(); // テーマカラーの変更の知らせを受け取る
   }
 
@@ -23,7 +23,7 @@ class CustomTheme with ChangeNotifier { // テーマカラーの切り替え
   static ThemeData get lightTheme {
     return ThemeData(
       primaryColor: Colors.lightBlue, // アプリの基本色は明るい青
-      accentColor: Colors.green, // アクセントカラーは緑
+      accentColor: Colors.deepPurple, // アクセントカラーは緑
       backgroundColor: Colors.white, // アプリの背景色は白
       scaffoldBackgroundColor: Colors.white, // Scaffold Widgetの背景色は白
       textTheme: TextTheme(
