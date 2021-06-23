@@ -22,11 +22,13 @@ class _SignInState extends State<SignIn> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          // 要素を縦の高さ- 100の位置に配置する
+          height: MediaQuery.of(context).size.height - 100,
           alignment: Alignment.bottomCenter,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 24),
             child: Column(
-              //mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
                   style: simpleTextStyle(), // widget.dartからデザイン呼び出し
