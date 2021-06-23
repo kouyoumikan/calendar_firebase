@@ -22,15 +22,16 @@ class _SettingState extends State<Setting> {
       appBar: AppBar(
         title: Text(
           widget.title,
-//          style: TextStyle(
-//            color: theme.accentColor,
-//          ),
+          style: TextStyle(
+            color: Theme.of(context).accentColor, // アプリバーのみアクセントカラーの色変更
+            //color: theme.accentColor,
+          ),
         ),
         actions: [
           IconButton(
             icon: const Icon(Icons.brightness_4_rounded),
             onPressed: () {
-              currentTheme.toggleTheme();
+              currentTheme.toggleTheme(); // ボタン押下後、テーマカラーの切り替え
             },
           ),
         ],

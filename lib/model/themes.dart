@@ -23,6 +23,7 @@ class CustomTheme with ChangeNotifier { // テーマカラーの切り替え
   static ThemeData get lightTheme {
     return ThemeData(
       primaryColor: Colors.lightBlue, // アプリの基本色は明るい青
+      accentColor: Colors.green, // アクセントカラーは緑
       backgroundColor: Colors.white, // アプリの背景色は白
       scaffoldBackgroundColor: Colors.white, // Scaffold Widgetの背景色は白
       textTheme: TextTheme(
