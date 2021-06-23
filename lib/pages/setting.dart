@@ -16,15 +16,15 @@ class Setting extends StatefulWidget {
 class _SettingState extends State<Setting> {
   @override
   Widget build(BuildContext context) {
-    //final theme = Theme.of(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           widget.title,
           style: TextStyle(
-            color: Theme.of(context).accentColor, // アプリバーのみアクセントカラーの色変更
-            //color: theme.accentColor,
+            //color: Theme.of(context).accentColor, // アプリバーのみアクセントカラーの色変更
+            color: theme.accentColor, // 上記の簡略化バージョン
           ),
         ),
         actions: [
