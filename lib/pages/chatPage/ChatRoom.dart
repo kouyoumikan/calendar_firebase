@@ -28,7 +28,7 @@ class _ChatRoomState extends State<ChatRoom> {
         actions: [
           GestureDetector( //タッチ検出をしたい親Widgetで使用し、PrimaryとSecondaryの2つのボタン入力をサポート
             onTap: () {
-              authMethods.signOut(); // ユーザのログイン状態でサインアウトするかを判定
+              //authMethods.signOut(); // ユーザのログイン状態でサインアウトするかを判定
               // チャットルーム画面のユーザーがサインインしているか
               Navigator.pushReplacement(
                   context, MaterialPageRoute ( // Authenticateをimportする

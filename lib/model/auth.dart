@@ -44,7 +44,7 @@ class AuthMethods {
   // パスワードをリセットする
   Future resetPass(String email) async {
     try {
-      return await _auth.sendPasswordResetEmail(email: email); // パスワードリセット用のメールを取得
+      //return await _auth.sendPasswordResetEmail(email: email); // パスワードリセット用のメールを取得
     }
     catch(e) { // エラー発生時の動作
       print(e.toString()); // エラー文を印刷してprintに表示する
@@ -54,7 +54,7 @@ class AuthMethods {
   // サインアウト
   Future signOut() async {
     try {
-      return await _auth.signOut(); // サインアウトが完了
+      //return await _auth.signOut(); // サインアウトが完了
     }
     catch(e) { // エラー発生時の動作
       print(e.toString()); // エラー文を印刷してprintに表示する

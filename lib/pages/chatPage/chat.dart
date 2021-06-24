@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/model/authenticate.dart';
+import 'package:flutter_firebase/pages/chatPage/search.dart';
 import 'package:flutter_firebase/pages/chatPage/sign_up.dart';
 import 'package:flutter_firebase/pages/chatPage/sign_in.dart';
 
@@ -18,7 +19,8 @@ class ChatHome extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity, // 視覚的な詰まり具合(密度)を調整
       ),
       //home: SignIn(),
-      home: Authenticate(),
+      //home: Authenticate(),
+      home: Search(),
     );
   }
 }

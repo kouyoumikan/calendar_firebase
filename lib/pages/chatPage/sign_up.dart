@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/model/auth.dart';
+import 'package:flutter_firebase/model/datebase.dart';
 import 'package:flutter_firebase/model/widget.dart';
 import 'package:flutter_firebase/pages/chatPage/ChatRoom.dart';
 
@@ -21,6 +22,7 @@ class _SignUpState extends State<SignUp> {
   bool isLoading = false;
 
   AuthMethods authMethods = AuthMethods(); // AuthMethodsをimportする
+  DatebaseMethods datebaseMethods = DatebaseMethods(); // DatebaseMethodsをimportする
 
   final formkey = GlobalKey<FormState>(); // Form内(テキストフォーム用ウィジェット)にformkeyを作成
   // firebaseで使用する変数
@@ -37,13 +39,23 @@ class _SignUpState extends State<SignUp> {
       authMethods.signUpWithEmailAndPassword(
           emailTextEditingController.text, passwordTextEditingController.text)
           .then( (value) {
-                //print("${value.uid}"); // メールアドレスのユーザーデータを印刷してprintに表示する
-                // チャットルーム画面にサインアップ画面のユーザーデータ情報を送信する
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute ( // ChatRoomをimportする
-                        builder: (context) => ChatRoom()
-                    ));
-              });
+            //print("${value.uid}"); // メールアドレスのユーザーデータを印刷してprintに表示する
+
+            // Cloud Firestoreのルールタブ内をallow read, write: if true;にして「公開」しないとコレクションに追加できない
+            // Cloud Firestore内のコレクションデータをサインアップ画面の認証結果で受け取るメールアドレスのデータに設定
+            Map<String, String> userInfoMap = { // ボタン押下後、Cloud Firestore内にユーザー情報を追加
+              "name": userNameTextEditingController.text,
+              "email": emailTextEditingController.text
+            };
+
+            datebaseMethods.uploadUserInfo(userInfoMap); // Cloud Firestore内のユーザー情報をアップデートする
+
+            // チャットルーム画面にサインアップ画面のユーザーデータ情報を送信する
+            Navigator.pushReplacement(
+                context, MaterialPageRoute ( // ChatRoomをimportする
+                    builder: (context) => ChatRoom()
+                ));
+          });
     }
   }
 
