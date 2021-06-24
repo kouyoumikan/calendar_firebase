@@ -36,6 +36,9 @@ dependencies:
   shared_preferences: ^2.0.6
   bubble: ^1.2.1   # 吹き出しのLINEようなチャット用のFlutterウィジェット
 
+  firebase_auth: ^1.4.1  # Firebase AuthenticationAPIを使用するためのFlutterプラグイン
+  cloud_firestore: ^2.2.2  # Cloud FirestoreAPIを使用するためのFlutterプラグイン
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
