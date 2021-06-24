@@ -10,8 +10,8 @@ Widget appBarMain(BuildContext context) {
       "assets/images/logo.png", // アプリバーのロゴ画像
       height: 40,
     ),
-//    elevation: 0.0,
-//    centerTitle: false,
+    elevation: 0.0,
+    centerTitle: false,
   );
 }
 

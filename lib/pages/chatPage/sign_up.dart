@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/model/auth.dart';
 import 'package:flutter_firebase/model/widget.dart';
+import 'package:flutter_firebase/pages/chatPage/ChatRoom.dart';
 
 /*
 *    サインアップ画面　（アカウントを持っている場合のログイン画面）
 * */
 
 class SignUp extends StatefulWidget {
+  // ユーザーがサインアップしている状態か判定
+  late final Function toggle;
+  SignUp(this.toggle);
+
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -26,12 +31,19 @@ class _SignUpState extends State<SignUp> {
   signMeUp() { // テキストフォームでサインアップできているかの判定
     if(formkey.currentState!.validate()) { // formkeyのデータでテキストフォームに入力した文字列の内容を判定
       setState(() {
-        isLoading = true; //
+        isLoading = true; // ボタン押下後にデータを読み込んでいる状態なのでtrue
       });
       // サインアップ画面の認証結果で受け取るメールアドレスのデータを取得して確認する
       authMethods.signUpWithEmailAndPassword(
-          emailTextEditingController.text, passwordTextEditingController.text).then(
-              (value) => print("$value")); // メールアドレスのデータを印刷してprintに表示する
+          emailTextEditingController.text, passwordTextEditingController.text)
+          .then( (value) {
+                //print("${value.uid}"); // メールアドレスのユーザーデータを印刷してprintに表示する
+                // チャットルーム画面にサインアップ画面のユーザーデータ情報を送信する
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute ( // ChatRoomをimportする
+                        builder: (context) => ChatRoom()
+                    ));
+              });
     }
   }
 
@@ -154,12 +166,20 @@ class _SignUpState extends State<SignUp> {
                       "Already have account ? ",
                       style: biggerTextStyle(),
                     ),
-                    Text( // アカウントを持っていない場合
-                      "SignIn now",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          decoration: TextDecoration.underline
+                    GestureDetector( //タッチ検出をしたい親Widgetで使用し、PrimaryとSecondaryの2つのボタン入力をサポート
+                      onTap: () { // ユーザーがサインアップしている状態とデータ送信
+                        widget.toggle();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text( // アカウントを持っていない場合
+                          "SignIn now",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              decoration: TextDecoration.underline
+                          ),
+                        ),
                       ),
                     ),
                   ],

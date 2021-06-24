@@ -55,9 +55,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - aseets/images/   # イメージ画像
-    #- aseets/fonts/   # フォント
+#  assets:
+#    - assets/images/   # イメージ画像
+    #- assets/fonts/   # フォント
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
