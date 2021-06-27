@@ -33,11 +33,16 @@ dependencies:
   intl: ^0.17.0
   flutter_riverpod: ^0.14.0+3
   flutter_form_builder: ^6.0.1
-  shared_preferences: ^2.0.6
+  #shared_preferences: ^2.0.6
+  shared_preferences: ^0.5.6+3
   bubble: ^1.2.1   # 吹き出しのLINEようなチャット用のFlutterウィジェット
 
-  firebase_auth: ^1.4.1  # Firebase AuthenticationAPIを使用するためのFlutterプラグイン
-  cloud_firestore: ^2.2.2  # Cloud FirestoreAPIを使用するためのFlutterプラグイン
+  #firebase_auth: ^1.4.1  # Firebase AuthenticationAPIを使用するためのFlutterプラグイン
+  firebase_auth: 0.15.4
+  #cloud_firestore: ^2.2.2  # Cloud FirestoreAPIを使用するためのFlutterプラグイン
+  cloud_firestore: ^0.13.5
+  google_sign_in: 4.4.3
+  random_string: ^2.0.1
 
 dev_dependencies:
   flutter_test:

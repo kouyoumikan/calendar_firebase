@@ -10,7 +10,7 @@ class AuthMethods {
 
   final FirebaseAuth _auth = FirebaseAuth.instance; // firebase_authをimportする
 
-  User _userFromFirebaseUser(FirebaseUser user) { // firebaseユーザーを取得
+  User? _userFromFirebaseUser(FirebaseUser user) { // firebaseユーザーを取得
     // CONDITION ? TRUE : FALSE 受け取ったユーザーデータがnullではないか判定
     return user != null ? User(userID: user.uid) : null;
   }

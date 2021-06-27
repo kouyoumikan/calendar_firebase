@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/model/auth.dart';
 import 'package:flutter_firebase/model/datebase.dart';
+import 'package:flutter_firebase/model/helperfunctions.dart';
 import 'package:flutter_firebase/model/widget.dart';
 import 'package:flutter_firebase/pages/chatPage/ChatRoom.dart';
 
@@ -23,6 +24,7 @@ class _SignUpState extends State<SignUp> {
 
   AuthMethods authMethods = AuthMethods(); // AuthMethodsをimportする
   DatebaseMethods datebaseMethods = DatebaseMethods(); // DatebaseMethodsをimportする
+  HelperFunctions helperFunctions = HelperFunctions(); // HelperFunctionsをimportする
 
   final formkey = GlobalKey<FormState>(); // Form内(テキストフォーム用ウィジェット)にformkeyを作成
   // firebaseで使用する変数
@@ -32,30 +34,34 @@ class _SignUpState extends State<SignUp> {
 
   signMeUp() { // テキストフォームでサインアップできているかの判定
     if(formkey.currentState!.validate()) { // formkeyのデータでテキストフォームに入力した文字列の内容を判定
+
+      // Cloud Firestoreのルールタブ内をallow read, write: if true;にして「公開」しないとコレクションに追加できない
+      // Cloud Firestore内のコレクションデータをサインアップ画面の認証結果で受け取るメールアドレスのデータに設定
+      Map<String, String> userInfoMap = { // ボタン押下後、Cloud Firestore内にユーザー情報を追加
+        "name": userNameTextEditingController.text,
+        "email": emailTextEditingController.text
+      };
+
+      // HelperFunctions.dartにアクセスする
+      HelperFunctions.saveUserEmailSharedPreference(emailTextEditingController.text);
+      HelperFunctions.saveUserNameSharedPreference(userNameTextEditingController.text);
+
       setState(() {
         isLoading = true; // ボタン押下後にデータを読み込んでいる状態なのでtrue
       });
+
       // サインアップ画面の認証結果で受け取るメールアドレスのデータを取得して確認する
       authMethods.signUpWithEmailAndPassword(
-          emailTextEditingController.text, passwordTextEditingController.text)
-          .then( (value) {
+          emailTextEditingController.text, passwordTextEditingController.text).then( (value) {
             //print("${value.uid}"); // メールアドレスのユーザーデータを印刷してprintに表示する
 
-            // Cloud Firestoreのルールタブ内をallow read, write: if true;にして「公開」しないとコレクションに追加できない
-            // Cloud Firestore内のコレクションデータをサインアップ画面の認証結果で受け取るメールアドレスのデータに設定
-            Map<String, String> userInfoMap = { // ボタン押下後、Cloud Firestore内にユーザー情報を追加
-              "name": userNameTextEditingController.text,
-              "email": emailTextEditingController.text
-            };
+          datebaseMethods.uploadUserInfo(userInfoMap); // Cloud Firestore内のユーザー情報をアップデートする
 
-            datebaseMethods.uploadUserInfo(userInfoMap); // Cloud Firestore内のユーザー情報をアップデートする
-
-            // チャットルーム画面にサインアップ画面のユーザーデータ情報を送信する
-            Navigator.pushReplacement(
-                context, MaterialPageRoute ( // ChatRoomをimportする
-                    builder: (context) => ChatRoom()
-                ));
-          });
+          // チャットルーム画面にサインアップ画面のユーザーデータ情報を送信する
+          Navigator.pushReplacement(context, MaterialPageRoute ( // ChatRoomをimportする
+                  builder: (context) => ChatRoom()
+          ));
+      });
     }
   }
 

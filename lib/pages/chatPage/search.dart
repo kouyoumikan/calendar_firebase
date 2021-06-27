@@ -31,17 +31,26 @@ class _SearchState extends State<Search> {
     });
   }
 
+  // チャットルームに遷移時、ユーザーデータを送信中のデータ読み込み中はスキップする
+  // 送信するチャットルームを作成して、ユーザーデータを送信する
+  createChatRoomAndStartConverstation(String userName) {
+
+    List<String> users = [userName, myName]; // サインインしたユーザーのチャットデータ
+    // ユーザーがアプリを閉じて再ログインした時、アプリに再ログインしてユーザーがログインしていることを確認する
+    databaseMethods.createChatRoom(chatRoomId, chatRoomMap)
+  }
+
   Widget searchList() { // ユーザー検索リストを画面に表示する
     return searchSnapshot != null ?  ListView.builder( // searchSnapshotのデータがnull出ないか判定
-      //itemCount: searchSnapshot.document.length,
-      itemCount: searchSnapshot.docs.length, // ユーザー検索で表示される値のアイテム数を取得
+      itemCount: searchSnapshot.documents.length,
+      //itemCount: searchSnapshot.docs.length, // ユーザー検索で表示される値のアイテム数を取得
         shrinkWrap: true,
         itemBuilder: (context, index) {
         return SearchTile(
-          //userName: searchSnapshot.document[index].data["name"],
-          userName: searchSnapshot.docs[index].data["name"],
-          //userName: searchSnapshot.document[index].data["email"],
-          userEmail: searchSnapshot.docs[index].data["email"],
+          userName: searchSnapshot.documents[index].data["name"],
+          //userName: searchSnapshot.docs[index].data["name"],
+          userEmail: searchSnapshot.documents[index].data["email"],
+          //userEmail: searchSnapshot.docs[index].data["email"],
         );
       }
     ) : Container(); // nullの場合はContainer()のみでリストタイルを表示しない
@@ -102,7 +111,7 @@ class _SearchState extends State<Search> {
                 ],
               ),
             ),
-            searchList();
+            searchList(),
           ],
         ),
       ),
