@@ -22,6 +22,22 @@ class _SearchState extends State<Search> {
 
   late QuerySnapshot searchSnapshot; // ユーザー検索で表示されるprint(value.toString()の値
 
+  Widget searchList() { // ユーザー検索リストを画面に表示する
+    return searchSnapshot != null ?  ListView.builder( // searchSnapshotのデータがnull出ないか判定
+        itemCount: searchSnapshot.documents.length,
+        //itemCount: searchSnapshot.docs.length, // ユーザー検索で表示される値のアイテム数を取得
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return SearchTile(
+            userName: searchSnapshot.documents[index].data["name"],
+            //userName: searchSnapshot.docs[index].data["name"],
+            userEmail: searchSnapshot.documents[index].data["email"],
+            //userEmail: searchSnapshot.docs[index].data["email"],
+          );
+        }
+    ) : Container(); // nullの場合はContainer()のみでリストタイルを表示しない
+  }
+
   initiateSearch(){ // ユーザー検索をこの内部で実行する
     // Cloud Firestore内のユーザー情報を取得して保存
     databaseMethods.getUsersByUsername(searchTextEditingController.text).then((value){
@@ -35,9 +51,9 @@ class _SearchState extends State<Search> {
 
   // チャットルームに遷移時、ユーザーデータを送信中のデータ読み込み中はスキップする
   // 送信するチャットルームを作成して、ユーザーデータを送信する
-  createChatRoomAndStartConverstation(String userName) {
+  createChatRoomAndStartConverstation(BuildContext context, String userName) {
 
-   String chatRoomId = getChatRoomId(userName, Constants.myName); // getChatRoomIdの呼び出し
+    String chatRoomId = getChatRoomId(userName, Constants.myName); // getChatRoomIdの呼び出し
 
     List<String> users = [userName, Constants.myName]; // サインインしたユーザーのチャットデータを取得
 
@@ -55,20 +71,47 @@ class _SearchState extends State<Search> {
     ));
   }
 
-  Widget searchList() { // ユーザー検索リストを画面に表示する
-    return searchSnapshot != null ?  ListView.builder( // searchSnapshotのデータがnull出ないか判定
-      itemCount: searchSnapshot.documents.length,
-      //itemCount: searchSnapshot.docs.length, // ユーザー検索で表示される値のアイテム数を取得
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-        return SearchTile(
-          userName: searchSnapshot.documents[index].data["name"],
-          //userName: searchSnapshot.docs[index].data["name"],
-          userEmail: searchSnapshot.documents[index].data["email"],
-          //userEmail: searchSnapshot.docs[index].data["email"],
-        );
-      }
-    ) : Container(); // nullの場合はContainer()のみでリストタイルを表示しない
+  // 検索結果を表示するリストタイル
+  Widget SearchTile({required String userName, required String userEmail}) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text( // ユーザーの名前を表示
+                userName,
+                style: simpleTextStyle(),
+              ),
+              Text( // ユーザーのメールアドレスを表示
+                userEmail,
+                style: simpleTextStyle(),
+              ),
+            ],
+          ),
+          Spacer(),
+          GestureDetector( //タッチ検出をしたい親Widgetで使用し、PrimaryとSecondaryの2つのボタン入力をサポート
+            onTap: () {
+//              createChatRoomAndStartConverstation(
+//                userName :  userName
+//              );
+            },
+            child: Container( // メッセージボタン
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Text(
+                "Message",
+                style: biggerTextStyle(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -134,54 +177,18 @@ class _SearchState extends State<Search> {
   }
 }
 
-class SearchTile extends StatelessWidget {
-
-  // ユーザー検索で表示されたしたユーザーデータを取得
-  final String userName;
-  final String userEmail;
-  SearchTile({required this.userName, required this.userEmail});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text( // ユーザーの名前を表示
-                userName,
-                style: simpleTextStyle(),
-              ),
-              Text( // ユーザーのメールアドレスを表示
-                userEmail,
-                style: simpleTextStyle(),
-              ),
-            ],
-          ),
-          Spacer(),
-          GestureDetector( //タッチ検出をしたい親Widgetで使用し、PrimaryとSecondaryの2つのボタン入力をサポート
-            onTap: () {
-               // ボタン送信機能でのテキストフォームに入力した文字列の内容を判定
-            },
-            child: Container( // メッセージボタン
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Text(
-                "Message",
-                style: biggerTextStyle(),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//class SearchTile extends StatelessWidget {
+//
+//  // ユーザー検索で表示されたしたユーザーデータを取得
+//  final String userName;
+//  final String userEmail;
+//  SearchTile({required this.userName, required this.userEmail});
+//
+//  @override
+//  Widget build(BuildContext context) {
+//
+//  }
+//}
 
 // 取得したChatRoomIdをアンダースコア前後でidを分ける（a_b）
 getChatRoomId(String a, String b) {

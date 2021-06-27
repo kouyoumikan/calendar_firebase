@@ -36,21 +36,21 @@ class HelperFunctions {
   }
 
   // 保存したユーザーのログインキーを取得する関数
-  static Future<bool> getUserLoggedInSharedPreference() async {
+  static Future<bool?> getUserLoggedInSharedPreference() async {
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.getBool(sharedPreferenceUserLoggedInKey);
+    return preferences.getBool(sharedPreferenceUserLoggedInKey);
   }
 
   // 保存したユーザーのユーザー名キーを取得する関数
-  static Future<String> getUserNameSharedPreference() async {
+  static Future<String?> getUserNameSharedPreference() async {
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.getString(sharedPreferenceUserNameKey);
+    return preferences.getString(sharedPreferenceUserNameKey);
   }
 
   // 保存したユーザーのメールアドレスキーを取得する関数
-  static Future<String> getUserEmailSharedPreference() async {
+  static Future<String?> getUserEmailSharedPreference() async {
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return await preferences.getString(sharedPreferenceUserEmailKey);
