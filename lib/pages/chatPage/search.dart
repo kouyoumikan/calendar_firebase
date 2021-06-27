@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/model/constants.dart';
 import 'package:flutter_firebase/model/datebase.dart';
+import 'package:flutter_firebase/model/helperfunctions.dart';
 import 'package:flutter_firebase/model/widget.dart';
 import 'package:flutter_firebase/pages/chatPage/Conversation.dart';
 
@@ -15,6 +16,8 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+
+  late String _myName; // ユーザーがログインした時のユーザー名の設定
 
   DatebaseMethods databaseMethods = DatebaseMethods(); // DatebaseMethodsをimportする
   // ユーザー名を検索するコントローラー設定
@@ -51,24 +54,51 @@ class _SearchState extends State<Search> {
 
   // チャットルームに遷移時、ユーザーデータを送信中のデータ読み込み中はスキップする
   // 送信するチャットルームを作成して、ユーザーデータを送信する
-  createChatRoomAndStartConverstation(BuildContext context, String userName) {
+//  createChatRoomAndStartConverstation(BuildContext context, String userName) {
+//
+//    String chatRoomId = getChatRoomId(userName, Constants.myName); // getChatRoomIdの呼び出し
+//
+//    List<String> users = [userName, Constants.myName]; // サインインしたユーザーのチャットデータを取得
+//
+//    // Cloud Firestore内のChatRoomコレクションデータのユーザ名をチャットルーム画面に提供して使用
+//    Map<String, dynamic> chatRoomMap = {
+//      "users" : users,
+//      "chatroomId" : chatRoomId
+//    };
+//
+//    // ユーザーがアプリを閉じて再ログインした時、アプリに再ログインしてユーザーがログインしていることを確認する
+//    databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
+//    // チャットルームの会話画面に移動する
+//    Navigator.push(context, MaterialPageRoute ( // ChatRoomをimportする
+//        builder: (context) => Conversation()
+//    ));
+//  }
 
-    String chatRoomId = getChatRoomId(userName, Constants.myName); // getChatRoomIdの呼び出し
+  createChatRoomAndStartConverstation({required String userName}) {
 
-    List<String> users = [userName, Constants.myName]; // サインインしたユーザーのチャットデータを取得
+    print("${Constants.myName}"); // ログインしたユーザー名データをprintに表示
 
-    // Cloud Firestore内のChatRoomコレクションデータのユーザ名をチャットルーム画面に提供して使用
-    Map<String, dynamic> chatRoomMap = {
-      "users" : users,
-      "chatroomId" : chatRoomId
-    };
+    if(userName != Constants.myName) {
+      String chatRoomId = getChatRoomId(userName, Constants.myName); // getChatRoomIdの呼び出し
 
-    // ユーザーがアプリを閉じて再ログインした時、アプリに再ログインしてユーザーがログインしていることを確認する
-    databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
-    // チャットルームの会話画面に移動する
-    Navigator.push(context, MaterialPageRoute ( // ChatRoomをimportする
-        builder: (context) => Conversation()
-    ));
+      List<String> users = [userName, Constants.myName]; // サインインしたユーザーのチャットデータを取得
+
+      // Cloud Firestore内のChatRoomコレクションデータのユーザ名をチャットルーム画面に提供して使用
+      Map<String, dynamic> chatRoomMap = {
+        "users" : users,
+        "chatroomId" : chatRoomId
+      };
+
+      // ユーザーがアプリを閉じて再ログインした時、アプリに再ログインしてユーザーがログインしていることを確認する
+      databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
+      // チャットルームの会話画面に移動する
+      Navigator.push(context, MaterialPageRoute ( // ChatRoomをimportする
+          builder: (context) => Conversation()
+      ));
+    }
+    else {
+      print("you cannot send message to yourself");
+    }
   }
 
   // 検索結果を表示するリストタイル
@@ -116,9 +146,18 @@ class _SearchState extends State<Search> {
 
   @override
   void initState() { // 画面を更新
-    //initiateSearch();
+    //getUserInfo();
     super.initState();
   }
+
+//  getUserInfo() async {
+//    // Cloud FireStore内のユーザー名を取得する(サインアップで登録したデータを取得して使用)
+//    _myName = (await HelperFunctions.getUserNameSharedPreference())!;
+//    setState(() {
+//
+//    });
+//    print("{$_myName}");
+//  }
 
   @override
   Widget build(BuildContext context) {

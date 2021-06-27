@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
         '/calendar': (context) => Calendar(), // カレンダー画面
 //        '/add_event': (context) => AddEvent(), // カレンダー入力画面
 //        '/view_event': (context) => ViewEvent(), // カレンダー入力画面
-//        '/setting': (context) => Setting(title: 'Fluter Themes Sample',), // 設定画面
-        '/setting': (context) => ThemeColors(title: 'Fluter Themes Sample',), // 設定画面
+//        '/setting': (context) => Setting(title: 'Flutter Themes Sample',), // 設定画面
+        '/setting': (context) => ThemeColors(title: 'Flutter Themes Sample',), // 設定画面
       },
     );
   }

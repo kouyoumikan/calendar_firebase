@@ -26,8 +26,12 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   getUserInfo() async {
-    // Cloud Firestore内のユーザー名を取得する(サインアップで登録したデータを取得して使用)
+
+    // Cloud FireStore内のユーザー名を取得する(サインアップで登録したデータを取得して使用)
     Constants.myName = (await HelperFunctions.getUserNameSharedPreference())!;
+
+    setState(() {
+    });
   }
 
   @override
