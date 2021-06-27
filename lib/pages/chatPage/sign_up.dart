@@ -24,7 +24,7 @@ class _SignUpState extends State<SignUp> {
 
   AuthMethods authMethods = AuthMethods(); // AuthMethodsをimportする
   DatebaseMethods datebaseMethods = DatebaseMethods(); // DatebaseMethodsをimportする
-  HelperFunctions helperFunctions = HelperFunctions(); // HelperFunctionsをimportする
+  //HelperFunctions helperFunctions = HelperFunctions(); // HelperFunctionsをimportする
 
   final formkey = GlobalKey<FormState>(); // Form内(テキストフォーム用ウィジェット)にformkeyを作成
   // firebaseで使用する変数
@@ -42,7 +42,7 @@ class _SignUpState extends State<SignUp> {
         "email": emailTextEditingController.text
       };
 
-      // HelperFunctions.dartにアクセスする
+      // HelperFunctions.dartにアクセスする(再ログイン時のユーザデータ設定を取得)
       HelperFunctions.saveUserEmailSharedPreference(emailTextEditingController.text);
       HelperFunctions.saveUserNameSharedPreference(userNameTextEditingController.text);
 
@@ -57,6 +57,7 @@ class _SignUpState extends State<SignUp> {
 
           datebaseMethods.uploadUserInfo(userInfoMap); // Cloud Firestore内のユーザー情報をアップデートする
 
+          HelperFunctions.saveUserLoggedInSharedPreference(true); // ユーザーのログイン状態をtrueで保存する
           // チャットルーム画面にサインアップ画面のユーザーデータ情報を送信する
           Navigator.pushReplacement(context, MaterialPageRoute ( // ChatRoomをimportする
                   builder: (context) => ChatRoom()

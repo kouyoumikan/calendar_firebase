@@ -14,6 +14,11 @@ class DatebaseMethods {
 //        .where("name", isEqualTo: username ).get();
   }
 
+  getUsersByUserEmail(String userEmail) async { // Cloud Firestore内のコレクションにあるユーザーデータを取得
+    return await Firestore.instance.collection("users")
+        .where("email", isEqualTo: userEmail ).getDocuments();
+  }
+
   uploadUserInfo(userMap) { // Cloud Firestore内のユーザー情報をアップデートする関数
     Firestore.instance.collection("users").add(userMap).catchError((e) {
       // Cloud Firestore内のエラー情報を印刷してprintに表示する
