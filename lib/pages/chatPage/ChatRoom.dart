@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/model/auth.dart';
 import 'package:flutter_firebase/model/authenticate.dart';
+import 'package:flutter_firebase/model/constants.dart';
+import 'package:flutter_firebase/model/helperfunctions.dart';
 import 'package:flutter_firebase/pages/chatPage/search.dart';
 import 'package:flutter_firebase/pages/chatPage/sign_in.dart';
 
@@ -16,6 +18,17 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
 
   AuthMethods authMethods = AuthMethods(); // AuthMethodsをimportする
+
+  @override
+  void initState() { // 画面の初期起動時に実行する
+    getUserInfo(); // サインアップで登録したユーザーデータを取得する
+    super.initState();
+  }
+
+  getUserInfo() async {
+    // Cloud Firestore内のユーザー名を取得する(サインアップで登録したデータを取得して使用)
+    Constants.myName = await HelperFunctions.getUserNameSharedPreference();
+  }
 
   @override
   Widget build(BuildContext context) {

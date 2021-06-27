@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/model/constants.dart';
 import 'package:flutter_firebase/model/datebase.dart';
 import 'package:flutter_firebase/model/widget.dart';
+import 'package:flutter_firebase/pages/chatPage/Conversation.dart';
 
 /*
 *    チャットルーム画面でユーザー名を検索する
@@ -35,9 +37,22 @@ class _SearchState extends State<Search> {
   // 送信するチャットルームを作成して、ユーザーデータを送信する
   createChatRoomAndStartConverstation(String userName) {
 
-    List<String> users = [userName, myName]; // サインインしたユーザーのチャットデータ
+   String chatRoomId = getChatRoomId(userName, Constants.myName); // getChatRoomIdの呼び出し
+
+    List<String> users = [userName, Constants.myName]; // サインインしたユーザーのチャットデータを取得
+
+    // Cloud Firestore内のChatRoomコレクションデータのユーザ名をチャットルーム画面に提供して使用
+    Map<String, dynamic> chatRoomMap = {
+      "users" : users,
+      "chatroomId" : chatRoomId
+    };
+
     // ユーザーがアプリを閉じて再ログインした時、アプリに再ログインしてユーザーがログインしていることを確認する
-    databaseMethods.createChatRoom(chatRoomId, chatRoomMap)
+    databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
+    // チャットルームの会話画面に移動する
+    Navigator.push(context, MaterialPageRoute ( // ChatRoomをimportする
+        builder: (context) => Conversation()
+    ));
   }
 
   Widget searchList() { // ユーザー検索リストを画面に表示する
@@ -165,5 +180,14 @@ class SearchTile extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+// 取得したChatRoomIdをアンダースコア前後でidを分ける（a_b）
+getChatRoomId(String a, String b) {
+  if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+    return "$b\_$a";
+  } else {
+    return "$a\_$b";
   }
 }
