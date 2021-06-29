@@ -59,4 +59,11 @@ class DatebaseMethods {
         .orderBy("time", descending: false).snapshots(); // descending:false = 最新時間のテキストメッセージを下に表示する機能
   }
 
+  // Conversation.dartで使用するテキスト会話のユーザーデータの取得
+  getChatRooms(String userName) async {
+    // ChatRoomコレクション内にあるusersコレクションのフィールドのデータを取得
+    return await Firestore.instance.collection("ChatRoom")
+        .where("users", arrayContains: userName ).snapshots();
+  }
+
 }
