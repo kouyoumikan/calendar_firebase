@@ -33,7 +33,9 @@ class _ConversationState extends State<Conversation> {
           itemCount: snapshot.data!.documents.length,
           itemBuilder: (context, index) {
             return MessageTile( // テキストメッセージ関数の呼び出し
-              snapshot.data!.documents[index].data["message"]
+              snapshot.data!.documents[index].data["message"],
+              // テキストメッセージ送信者がログインユーザーと等しい
+              snapshot.data!.documents[index].data["sendBy"] == Constants.myName,
             );
           }
         ) : Container();
@@ -121,16 +123,6 @@ class _ConversationState extends State<Conversation> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.search), // ユーザー名を検索するボタン
-        onPressed: () {
-          // チャットルーム画面にチャットルーム画面のユーザー名を検索する
-          Navigator.pushReplacement(
-              context, MaterialPageRoute ( // Searchをimportする
-              builder: (context) => Search()
-          ));
-        },
-      ),
     );
   }
 }
@@ -140,20 +132,52 @@ class _ConversationState extends State<Conversation> {
 * */
 
 class MessageTile extends StatelessWidget {
-  // テキストメッセージの変数設定
-  final String message;
-  MessageTile(this.message);
+
+  final String message; // テキストメッセージの変数設定
+  final bool isSendByMe; // ログインユーザーのテキストメッセージ色を強調する変数設定
+  MessageTile(this.message, this.isSendByMe);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(
-        message,
-        style: TextStyle(
-            color: Colors.white,
-            fontSize: 17
+      // テキストメッセージ送信者がログインユーザーの場合はテキストメッセージ左のスペースを0、右のスペースを24に設定
+      // テキストメッセージ送信者がログインユーザーではない場合はテキストメッセージ左のスペースを24、右のスペースを0に設定
+      padding: EdgeInsets.only(left: isSendByMe ? 0 : 24, right: isSendByMe ? 24 : 0),
+      margin: EdgeInsets.symmetric(vertical: 8), // 要素周りのスペース設定
+      width: MediaQuery.of(context).size.width, // テキストメッセージの表示高さをアプリの高さに設定
+      // テキストメッセージ送信者がログインユーザーの場合はテキストメッセージを右に表示、違う場合はテキストメッセージを左に表示
+      alignment: isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16), // 要素内の周りのスペース設定
+        decoration: BoxDecoration(
+          gradient: LinearGradient( // テキスト周りの色設定
+            colors: isSendByMe ? [ // テキストメッセージ送信者がログインユーザーの場合
+              const Color(0xff007EF4),
+              const Color(0xff2A75BC)
+            ] : [ // テキストメッセージ送信者がログインユーザーではない場合
+              const Color(0x1AFFFFFF),
+              const Color(0x1AFFFFFF)
+            ],
+          ),
+          borderRadius: isSendByMe ? BorderRadius.only( // テキストメッセージ送信者がログインユーザーの場合
+            topLeft: Radius.circular(23),
+            topRight: Radius.circular(23),
+            bottomLeft: Radius.circular(23),
+          ) :
+          BorderRadius.only( // テキストメッセージ送信者がログインユーザーではない場合
+            topLeft: Radius.circular(23),
+            topRight: Radius.circular(23),
+            bottomRight: Radius.circular(23),
+          ),
         ),
-      ), // テキストメッセージの表示
+        child: Text(
+          message,
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 17
+          ),
+        ), // テキストメッセージの表示
+      ),
     );
   }
 }
