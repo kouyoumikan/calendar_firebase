@@ -93,7 +93,9 @@ class _SearchState extends State<Search> {
       databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
       // チャットルームの会話画面に移動する
       Navigator.push(context, MaterialPageRoute ( // ChatRoomをimportする
-          builder: (context) => Conversation()
+          builder: (context) => Conversation(
+            chatRoomId
+          )
       ));
     }
     else {
@@ -202,7 +204,7 @@ class _SearchState extends State<Search> {
                         borderRadius: BorderRadius.circular(40),
                       ),
                       padding: EdgeInsets.all(10),
-                      child: Image.asset("assets/images/search_white.png")
+                      child: Image.asset("assets/images/search_white.png"),  // 検索する虫眼鏡アイコン
                     ),
                   ),
                 ],

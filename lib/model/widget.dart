@@ -21,23 +21,44 @@ Widget appBarMain(BuildContext context) {
 
 InputDecoration textFieldInputDecoration(String hintText) {
   return InputDecoration(
-      hintText: hintText,
-      hintStyle: TextStyle(color: Colors.white54),
-      focusedBorder:
-      UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-      enabledBorder:
-      UnderlineInputBorder(borderSide: BorderSide(color: Colors.white))
+    hintText: hintText,
+    hintStyle: TextStyle(
+      color: Colors.white54
+    ),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.white
+      ),
+    ),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.white
+      ),
+    ),
   );
 }
 
 TextStyle simpleTextStyle() {
-  return TextStyle(color: Colors.white, fontSize: 16);
+  return TextStyle(
+    color: Colors.white,
+    fontSize: 16
+  );
 }
 
 TextStyle biggerTextStyle() {
-  return TextStyle(color: Colors.white, fontSize: 17);
+  return TextStyle(
+    color: Colors.white,
+    fontSize: 17
+  );
 }
 
+//TextStyle mediaTextStyle() {
+//  return TextStyle(color: Colors.black87, fontSize: 17);
+//}
+
 TextStyle mediaTextStyle() {
-  return TextStyle(color: Colors.black87, fontSize: 17);
+  return TextStyle(
+    color: Colors.white,
+    fontSize: 17
+  );
 }
